@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <LoginView></LoginView>
+    <router-view></router-view>
   </div>
 </template>
 <script>
 import LoginView from "./views/LoginView.vue";
+import RegisterView from "@/views/RegisterView";
 export default {
   name: "app",
   components: {
+    RegisterView,
     LoginView,
   },
 };
