@@ -25,8 +25,8 @@
           ></el-input>
         </el-form-item>
         <el-form-item class="btns">
-          <el-button type="primary" @click="submitForm()">登录</el-button>
-          <el-button>注册</el-button>
+          <el-button @click="toReg()">注册</el-button>
+          <el-button type="primary" @click="submitLogForm()">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -46,7 +46,7 @@ export default {
       rules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 8, message: "长度在 3 到 8 个字符", trigger: "blur" },
+          { min: 3, max: 11, message: "长度在 3 到 11 个字符", trigger: "blur" },
         ],
         passWord: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -61,7 +61,12 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    toReg(){
+      this.$router.push({
+        path:'/register'
+      })
+    },
+    submitLogForm() {
       axios({
         url: "http://localhost:8181/user/login",
         method: "post",
@@ -74,7 +79,11 @@ export default {
           password: this.loginForm.passWord,
         },
       }).then((res) => {
-        console.log(res.data);
+        if(res.data.code === 200){
+          this.$message.success(res.data.message);
+        }else {
+          this.$message.error(res.data.message);
+        }
       });
     },
   },
