@@ -2,6 +2,7 @@ package com.hhhlbjshop.backend.controller;
 
 import com.hhhlbjshop.backend.entity.UserInfo;
 import com.hhhlbjshop.backend.repository.UserRepository;
+import com.hhhlbjshop.backend.util.MD5Util;
 import com.hhhlbjshop.backend.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,9 +20,10 @@ public class UserLogController {
     @RequestMapping("/login")
     public ResultUtil<String> login(String userName, String password) {
         UserInfo userInfo = userRepository.findById(userName).orElse(null);
+        String passWord = MD5Util.getMD5(password);
         if (userInfo == null) {
             return ResultUtil.fail("该用户不存在", null);
-        } else if (userName.equals(userInfo.getUsername()) && password.equals(userInfo.getPassword())) {
+        } else if (userName.equals(userInfo.getUsername()) && passWord.equals(userInfo.getPassword())) {
             return ResultUtil.success("登陆成功", null);
         } else {
             return ResultUtil.fail("密码错误，请重新输入", null);
