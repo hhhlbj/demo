@@ -2,6 +2,7 @@ package com.hhhlbjshop.backend.controller;
 
 import com.hhhlbjshop.backend.entity.UserInfo;
 import com.hhhlbjshop.backend.repository.UserRepository;
+import com.hhhlbjshop.backend.util.MD5Util;
 import com.hhhlbjshop.backend.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,15 +21,16 @@ public class UserRegController {
     public ResultUtil<String> reg(String userName, String password, String conPassword) {
         UserInfo userInfo = userRepository.findById(userName).orElse(null);
         UserInfo userInfoAdd = new UserInfo();
+        String passWord = MD5Util.getMD5(password);
         if (userInfo != null) {
             return ResultUtil.fail("该用户已存在", null);
         } else if (!password.equals(conPassword)) {
             return ResultUtil.fail("两次密码不一致", null);
-        } else if (userName.equals("") || password.equals("") || conPassword.equals("")) {
+        } else if (userName.equals("") || password.equals("")) {
             return ResultUtil.fail("填写信息有误，请核对", null);
         } else {
             userInfoAdd.setUsername(userName);
-            userInfoAdd.setPassword(password);
+            userInfoAdd.setPassword(passWord);
             userRepository.save(userInfoAdd);
             return ResultUtil.success("注册成功", null);
         }
