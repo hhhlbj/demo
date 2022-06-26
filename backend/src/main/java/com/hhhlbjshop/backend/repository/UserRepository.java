@@ -1,7 +1,7 @@
 package com.hhhlbjshop.backend.repository;
 
-import com.hhhlbjshop.backend.entity.UserTest;
+import com.hhhlbjshop.backend.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<UserTest,String> {
+public interface UserRepository extends JpaRepository<UserInfo,String> {
 }

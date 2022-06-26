@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class UserTest {
+public class UserInfo {
     @Id
     private String username;
     private String password;
