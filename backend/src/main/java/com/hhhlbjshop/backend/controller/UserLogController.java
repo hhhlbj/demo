@@ -1,13 +1,14 @@
 package com.hhhlbjshop.backend.controller;
 
-import com.hhhlbjshop.backend.entity.UserInfo;
-import com.hhhlbjshop.backend.repository.UserRepository;
-import com.hhhlbjshop.backend.util.MD5Util;
+import com.hhhlbjshop.backend.service.UserLogService;
 import com.hhhlbjshop.backend.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiParam;
+
 
 @RestController
 @CrossOrigin
@@ -15,18 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserLogController {
 
     @Autowired
-    UserRepository userRepository;
+    UserLogService userLogService;
 
     @RequestMapping("/login")
-    public ResultUtil<String> login(String userName, String password) {
-        UserInfo userInfo = userRepository.findById(userName).orElse(null);
-        String passWord = MD5Util.getMD5(password);
-        if (userInfo == null) {
-            return ResultUtil.fail("该用户不存在", null);
-        } else if (userName.equals(userInfo.getUsername()) && passWord.equals(userInfo.getPassword())) {
-            return ResultUtil.success("登陆成功", null);
-        } else {
-            return ResultUtil.fail("密码错误，请重新输入", null);
-        }
+    public ResultUtil<String> userLogin(
+            @RequestParam("userName") @ApiParam(name = "userName", value = "用户名", required = true) String userName,
+            @RequestParam("password") @ApiParam(name = "password", value = "密码", required = true) String password
+    ) throws Exception {
+        ResultUtil commonResult = userLogService.doLogin(userName, password);
+        return commonResult;
     }
 }

@@ -23,7 +23,7 @@ public class ResultUtil<T> {
      */
     private T data;
 
-    private ResultUtil() {
+    public ResultUtil() {
     }
 
     public static <T> ResultUtil<T> success() {
@@ -33,9 +33,9 @@ public class ResultUtil<T> {
         return resultUtil;
     }
 
-    public static <T> ResultUtil<T> success(T data) {
+    public static <T> ResultUtil<T> success(String message) {
         ResultUtil<T> resultUtil = success();
-        resultUtil.setData(data);
+        resultUtil.setMessage(message);
         return resultUtil;
     }
 
@@ -61,9 +61,9 @@ public class ResultUtil<T> {
         return resultUtil;
     }
 
-    public static <T> ResultUtil<T> fail(T data) {
+    public static <T> ResultUtil<T> fail(String message) {
         ResultUtil<T> resultUtil = fail();
-        resultUtil.setData(data);
+        resultUtil.setMessage(message);
         return resultUtil;
     }
 

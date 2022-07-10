@@ -1,12 +1,15 @@
 package com.hhhlbjshop.backend.controller;
 
 import com.hhhlbjshop.backend.entity.UserInfo;
-import com.hhhlbjshop.backend.repository.UserRepository;
+import com.hhhlbjshop.backend.repository.UserInfoRepository;
+import com.hhhlbjshop.backend.service.UserRegService;
 import com.hhhlbjshop.backend.util.MD5Util;
 import com.hhhlbjshop.backend.util.ResultUtil;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,24 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRegController {
 
     @Autowired
-    UserRepository userRepository;
+    UserRegService userRegService;
 
     @RequestMapping("/register")
-    public ResultUtil<String> reg(String userName, String password, String conPassword) {
-        UserInfo userInfo = userRepository.findById(userName).orElse(null);
-        UserInfo userInfoAdd = new UserInfo();
-        String passWord = MD5Util.getMD5(password);
-        if (userInfo != null) {
-            return ResultUtil.fail("该用户已存在", null);
-        } else if (!password.equals(conPassword)) {
-            return ResultUtil.fail("两次密码不一致", null);
-        } else if (userName.equals("") || password.equals("")) {
-            return ResultUtil.fail("填写信息有误，请核对", null);
-        } else {
-            userInfoAdd.setUsername(userName);
-            userInfoAdd.setPassword(passWord);
-            userRepository.save(userInfoAdd);
-            return ResultUtil.success("注册成功", null);
-        }
+    public ResultUtil<String> UserRegister(
+            @RequestParam("userName") @ApiParam(name = "userName", value = "用户名", required = true) String userName,
+            @RequestParam("password") @ApiParam(name = "password", value = "密码", required = true) String password,
+            @RequestParam("conPassword") @ApiParam(name = "conPassword", value = "确认密码", required = true) String conPassword
+    ) throws Exception {
+        ResultUtil commonResult = userRegService.doRegister(userName, password, conPassword);
+        return commonResult;
     }
 }
