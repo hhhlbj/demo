@@ -15,6 +15,7 @@
             type="text"
             prefix-icon="el-icon-user"
             v-model="loginForm.userName"
+            @keyup.enter.native="submitLogForm()"
           ></el-input>
         </el-form-item>
         <el-form-item prop="passWord">
@@ -22,6 +23,7 @@
             type="password"
             prefix-icon="el-icon-lock"
             v-model="loginForm.passWord"
+            @keyup.enter.native="submitLogForm()"
           ></el-input>
         </el-form-item>
         <el-form-item class="btns">

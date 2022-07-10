@@ -15,6 +15,7 @@
                             type="text"
                             prefix-icon="el-icon-user"
                             v-model="regForm.userName"
+                            @keyup.enter.native="submitRegForm()"
                     ></el-input>
                 </el-form-item>
                 <el-form-item prop="passWord">
@@ -22,6 +23,7 @@
                             type="password"
                             prefix-icon="el-icon-lock"
                             v-model="regForm.passWord"
+                            @keyup.enter.native="submitRegForm()"
                     ></el-input>
                 </el-form-item>
                 <el-form-item prop="confirmPassword">
@@ -29,6 +31,7 @@
                             type="password"
                             prefix-icon="el-icon-lock"
                             v-model="regForm.confirmPassword"
+                            @keyup.enter.native="submitRegForm()"
                     ></el-input>
                 </el-form-item>
                 <el-form-item class="btns">
