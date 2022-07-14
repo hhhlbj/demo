@@ -24,13 +24,13 @@ public class UserLogService {
         String passWord = MD5Util.getMD5(password);
         ResultUtil resultUtil = new ResultUtil();
         userLockService.changeStatus(userName);
-        if (!BaseUtil.Base_HasValue(userInfo)){
+        if (!BaseUtil.Base_HasValue(userInfo)) {
             resultUtil = ResultUtil.fail("未找到该用户");
-        }else if(userName.equals(userInfo.getUserName()) && !passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("error")){
+        } else if (userName.equals(userInfo.getUserName()) && !passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("error")) {
             resultUtil = ResultUtil.fail("该账户状态异常，请稍后再试");
-        }else if(userName.equals(userInfo.getUserName()) && !passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("normal")){
+        } else if (userName.equals(userInfo.getUserName()) && !passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("normal")) {
             resultUtil = userLockService.userLock(userName);
-        }else if(userName.equals(userInfo.getUserName()) && passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("normal")){
+        } else if (userName.equals(userInfo.getUserName()) && passWord.equals(userInfo.getPassword()) && userInfo.getUserStatus().equals("normal")) {
             userLockService.cleanZero(userName);
             resultUtil = ResultUtil.success("登录成功");
         }
